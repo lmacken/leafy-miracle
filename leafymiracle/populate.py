@@ -19,7 +19,8 @@ from kitchen.text.converters import to_unicode
 
 from models import Root, Category, Group, Package, DBSession, initialize_sql
 
-def populate(comps='comps-f16'):
+
+def populate(comps='comps-f16', do_dependencies=True):
     from yum.comps import Comps
 
     session = DBSession()
@@ -57,6 +58,22 @@ def populate(comps='comps-f16'):
                 g.category = c
 
         session.flush()
+
+    if do_dependencies:
+        yumobj = yum.YumBase()
+        yumobj.setCacheDir()
+        for package in session.query(Package).all():
+            deps = yumobj.pkgSack.searchNevra(name=package.name)[0]
+            deps_d = pkg.findDeps([pkg])
+            deps = [tup[0] for tup in deps_d[deps_d.keys()[0]].keys()]
+
+            for dep in deps:
+                dep_as_package = session.query(Package)\
+                        .filter_by(name=dep).one()
+                if dep_as_package not in package.dependencies:
+                    package.dependencies.append(dep_as_package)
+
+
 
     session.commit()
 
