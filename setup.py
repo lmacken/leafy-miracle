@@ -12,7 +12,7 @@ requires = [
     'zope.sqlalchemy',
     'WebError',
     "formencode",
-    "tw2.jit",
+    "tw2.jit>=0.2.8b23",
     "kitchen",
     ]
 
