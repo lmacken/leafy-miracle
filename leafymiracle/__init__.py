@@ -22,7 +22,6 @@ from leafymiracle.widgets import LeafyGraph
 def main(global_config, **settings):
     """ This function returns a WSGI application.
     """
-    print settings
     engine = engine_from_config(settings, 'sqlalchemy.')
     get_root = appmaker(engine)
     config = Configurator(settings=settings, root_factory=get_root)
