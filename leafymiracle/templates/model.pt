@@ -2,8 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal">
 <head>
   <title>Fedora Comps Visualization, by Luke Macken</title>
+  <link rel="stylesheet" type="text/css" href="static/css/leafy.css"/>
 </head>
-<body bgcolor="#444444">
-  <div tal:content="structure jitwidget.display()"></div>
+<body>
+    <div class="inner" tal:content="structure jitwidget.display()"></div>
 </body>
 </html>

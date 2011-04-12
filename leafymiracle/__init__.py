@@ -32,6 +32,7 @@ def main(global_config, **settings):
     config.add_view('leafymiracle.views.view_model',
                     context='leafymiracle.models.Root',
                     renderer="templates/model.pt")
+    config.add_static_view(name='static', path='static')
 
     # Create the data view for our tw2.jit.SQLARadialGraph
     jit_view = lambda context, request: LeafyGraph.request(request)

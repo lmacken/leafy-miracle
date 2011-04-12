@@ -18,15 +18,20 @@ from tw2.core.resources import JSSymbol
 
 from leafymiracle import models
 
+# Using mihmo's mathematically nice colors for fedora.
+# http://mihmo.livejournal.com/37350.html
+triads = ["#3c6eb4", "#b53c6e", "#6eb53c"]
+triads_dark = ["#294172", "#732942", "#427329"]
+
+
 class LeafyGraph(SQLARadialGraph):
     id = 'leafy_graph'
     entities = [models.Root, models.Category, models.Group, models.Package]
     base_url = '/data'
     width = '1000'
-    height = '650'
+    height = '750'
     depth = 2
     levelDistance = 150
-    backgroundcolor = '#444444'
     alphabetize_relations = 24
     alphabetize_minimal = True
     show_attributes = False
@@ -35,4 +40,28 @@ class LeafyGraph(SQLARadialGraph):
     excluded_columns = ['group']
     deep_linking = True
     #transition = JSSymbol(src='$jit.Trans.Back.easeInOut')
-    duration = 200
+    duration = 400
+
+    backgroundcolor = '#FFFFFF'
+    background = { 'CanvasStyles': { 'strokeStyle' : '#FFFFFF' } }
+    Node = { 'color' : triads[1] }
+    Edge = { 'color' : triads[2], 'lineWidth':1.5, }
+
+    # Override the label style
+    onPlaceLabel = JSSymbol(src="""
+        (function(domElement, node){
+            domElement.style.display = "none";
+            domElement.innerHTML = node.name;
+            domElement.style.display = "";
+            var left = parseInt(domElement.style.left);
+            domElement.style.width = '120px';
+            domElement.style.height = '';
+            var w = domElement.offsetWidth;
+            domElement.style.left = (left - w /2) + 'px';
+
+            domElement.style.cursor = 'pointer';
+            if ( node._depth <= 1 )
+                domElement.style.color = '%s';
+            else
+                domElement.style.color = '%s';
+        })""" % (triads[0], triads_dark[0]))
