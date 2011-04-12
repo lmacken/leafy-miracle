@@ -6,7 +6,7 @@
 </head>
 <body>
     <div class="outer">
-      <img class="center" src="static/images/leafy_logo_smaller.png" />
+      <img class="center" src="static/images/leafy_logo.png" />
     </div>
     <div class="inner" tal:content="structure jitwidget.display()"></div>
 </body>
