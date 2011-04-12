@@ -33,6 +33,7 @@
 [ Running ]
 
 $ virtualenv --no-site-packages env && source env/bin/activate
+$ ./link_in_system_modules.sh
 $ python setup.py develop
 $ python leafymiracle/populate.py
 $ paster serve development.ini
