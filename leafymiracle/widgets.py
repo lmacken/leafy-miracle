@@ -37,7 +37,6 @@ class LeafyGraph(SQLARadialGraph):
     show_attributes = False
     imply_relations = True
     auto_labels = False
-    excluded_columns = ['group']
     deep_linking = True
     #transition = JSSymbol(src='$jit.Trans.Back.easeInOut')
     duration = 400
