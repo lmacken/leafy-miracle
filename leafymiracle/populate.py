@@ -19,6 +19,9 @@ from kitchen.text.converters import to_unicode
 
 from models import Root, Category, Group, Package, DBSession, initialize_sql
 
+from yum import YumBase
+yumobj = YumBase()
+yumobj.setCacheDir()
 
 def populate(comps='comps-f16', do_dependencies=True):
     from yum.comps import Comps
@@ -60,22 +63,36 @@ def populate(comps='comps-f16', do_dependencies=True):
         session.flush()
 
     if do_dependencies:
-        yumobj = yum.YumBase()
-        yumobj.setCacheDir()
         for package in session.query(Package).all():
-            deps = yumobj.pkgSack.searchNevra(name=package.name)[0]
-            deps_d = pkg.findDeps([pkg])
-            deps = [tup[0] for tup in deps_d[deps_d.keys()[0]].keys()]
-
-            for dep in deps:
-                dep_as_package = session.query(Package)\
-                        .filter_by(name=dep).one()
-                if dep_as_package not in package.dependencies:
-                    package.dependencies.append(dep_as_package)
-
-
+            add_dependencies(package, session)
 
     session.commit()
+
+def add_dependencies(package, session):
+    try:
+        pkg = yumobj.pkgSack.searchNevra(name=package.name)[0]
+        deps_d = yumobj.findDeps([pkg])
+        deps = [tup[0] for tup in deps_d[deps_d.keys()[0]].keys()]
+
+        for dep in deps:
+            base_query = session.query(Package).filter_by(name=dep)
+            if base_query.count() == 0:
+                _new_package = Package(name=dep)
+                session.add(_new_package)
+                session.flush()
+                add_dependencies(_new_package, session)
+
+            dep_as_package = base_query.one()
+
+            if dep_as_package not in package.dependencies:
+                package.dependencies.append(dep_as_package)
+
+        print "package: %s has (%i/%i) deps" % (
+            package.name, len(package.dependencies), len(deps))
+        session.flush()
+    except Exception as e:
+        # TODO -- figure out why some stuff breaks here.
+        pass
 
 def build_comps():
     import subprocess
