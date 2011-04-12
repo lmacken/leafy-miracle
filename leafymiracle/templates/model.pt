@@ -5,6 +5,9 @@
   <link rel="stylesheet" type="text/css" href="static/css/leafy.css"/>
 </head>
 <body>
+    <div class="outer">
+      <img class="center" src="static/images/leafy_logo_smaller.png" />
+    </div>
     <div class="inner" tal:content="structure jitwidget.display()"></div>
 </body>
 </html>
