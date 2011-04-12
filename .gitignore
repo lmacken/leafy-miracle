@@ -1,8 +1,9 @@
 *.pyc
 *.pyo
-*.db
+*.db*
 build
 dist
 env
 *.egg-info
 *.swp
+comps
