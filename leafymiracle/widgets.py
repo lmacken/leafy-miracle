@@ -54,22 +54,22 @@ class LeafyGraph(SQLARadialGraph):
 
     # Override the label style
     onPlaceLabel = JSSymbol(src="""
-                            (function(domElement, node){
-                            domElement.style.display = "none";
-                            domElement.innerHTML = node.name;
-                            domElement.style.display = "";
-                            var left = parseInt(domElement.style.left);
-                            domElement.style.width = '120px';
-                            domElement.style.height = '';
-                            var w = domElement.offsetWidth;
-                            domElement.style.left = (left - w /2) + 'px';
+        (function(domElement, node){
+            domElement.style.display = "none";
+            domElement.innerHTML = node.name;
+            domElement.style.display = "";
+            var left = parseInt(domElement.style.left);
+            domElement.style.width = '120px';
+            domElement.style.height = '';
+            var w = domElement.offsetWidth;
+            domElement.style.left = (left - w /2) + 'px';
 
-                            domElement.style.cursor = 'pointer';
-                            if ( node._depth <= 1 )
-                            domElement.style.color = '%s';
-                            else
-                            domElement.style.color = '%s';
-                           })""" % (triads[0], triads_dark[0]))
+            domElement.style.cursor = 'pointer';
+            if ( node._depth <= 1 )
+                domElement.style.color = '%s';
+            else
+                domElement.style.color = '%s';
+       })""" % (triads[0], triads_dark[0]))
 
 def leafy_readme():
     """ Ridiculous """
