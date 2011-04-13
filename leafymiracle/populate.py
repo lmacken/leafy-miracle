@@ -72,7 +72,7 @@ def add_dependencies(package, session):
     deps = set()
     pkg = yumobj.pkgSack.searchNevra(name=package.name)
     if not pkg:
-        print "Cannot find package: %s" % package
+        print "Cannot find package: %s" % package.name
         return
 
     deps_d = yumobj.findDeps([pkg[0]])
