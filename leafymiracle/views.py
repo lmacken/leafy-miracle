@@ -15,10 +15,12 @@
 
 from pyramid.httpexceptions import HTTPFound
 from widgets import LeafyGraph
+from widgets import LeafyDialog
 
 def view_root(context, request):
     return HTTPFound(location='/1')
 
 def view_model(context, request):
     return {'item':context, 'project':'leafymiracle',
-            'jitwidget': LeafyGraph(rootObject=context)}
+            'jitwidget': LeafyGraph(rootObject=context),
+            'dialogwidget': LeafyDialog}

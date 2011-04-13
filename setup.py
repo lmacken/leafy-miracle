@@ -13,7 +13,9 @@ requires = [
     'WebError',
     "formencode",
     "tw2.jit>=0.2.8b23",
+    "tw2.jqplugins.ui",
     "kitchen",
+    "docutils",
     ]
 
 if sys.version_info[:3] < (2,5,0):

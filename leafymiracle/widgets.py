@@ -14,7 +14,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from tw2.jit import SQLARadialGraph
+from tw2.jqplugins.ui import DialogWidget
+
 from tw2.core.resources import JSSymbol
+
+import docutils.examples
 
 from leafymiracle import models
 
@@ -65,3 +69,21 @@ class LeafyGraph(SQLARadialGraph):
             else
                 domElement.style.color = '%s';
         })""" % (triads[0], triads_dark[0]))
+
+def leafy_readme():
+    """ Ridiculous """
+    root = '/'.join(__file__.split('/')[:-2])
+    fname = root + '/README.rst'
+    f = open(fname, 'r')
+    readme = f.read()
+    f.close()
+    return docutils.examples.html_body(unicode(readme))
+
+class LeafyDialog(DialogWidget):
+    id = 'leafy_dialog'
+    options = {
+        'title' : 'README.rst',
+        'autoOpen' : False,
+        'width' : 1000
+    }
+    value = leafy_readme()

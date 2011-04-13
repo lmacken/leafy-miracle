@@ -5,8 +5,11 @@
   <link rel="stylesheet" type="text/css" href="static/css/leafy.css"/>
 </head>
 <body>
+  <div tal:content="structure dialogwidget.display()"></div>
     <div class="outer">
-      <img class="center" src="static/images/leafy_logo.png" />
+      <a href="javascript:(function(){$('#leafy_dialog').dialog('open');})();">
+        <img class="center" src="static/images/leafy_logo.png" />
+      </a>
     </div>
     <div class="inner" tal:content="structure jitwidget.display()"></div>
 </body>
