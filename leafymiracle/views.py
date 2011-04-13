@@ -14,6 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from pyramid.httpexceptions import HTTPFound
+from tw2.jqplugins.ui.base import set_ui_theme_name
 from widgets import LeafyGraph
 from widgets import LeafyDialog
 
@@ -21,6 +22,8 @@ def view_root(context, request):
     return HTTPFound(location='/1')
 
 def view_model(context, request):
+    # TODO -- we need a fedora jquery-ui theme sitting around.
+    set_ui_theme_name('hot-sneaks')
     return {'item':context, 'project':'leafymiracle',
             'jitwidget': LeafyGraph(rootObject=context),
             'dialogwidget': LeafyDialog}
