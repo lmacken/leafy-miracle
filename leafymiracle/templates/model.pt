@@ -11,7 +11,7 @@
         <img class="center" src="static/images/leafy_logo.png" />
       </a>
     </div>
-    <div class "searchbar">
+    <div class="searchbar">
       <div tal:content="structure searchbarwidget.display()"></div>
     </div>
     <div class="inner" tal:content="structure jitwidget.display()"></div>
