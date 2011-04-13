@@ -44,6 +44,7 @@ Running
 ::
 
 $ sudo yum -y install python-virtualenv
+$ git clone git://fedorapeople.org/~lmacken/leafymiracle && cd leafymiracle
 $ virtualenv env && source env/bin/activate
 $ python setup.py develop
 $ python leafymiracle/populate.py
