@@ -17,6 +17,12 @@ from pyramid.httpexceptions import HTTPFound
 from tw2.jqplugins.ui.base import set_ui_theme_name
 from widgets import LeafyGraph
 from widgets import LeafyDialog
+from widgets import LeafySearchbar
+
+import leafymiracle.models
+import sqlalchemy
+import simplejson
+import webob
 
 def view_root(context, request):
     return HTTPFound(location='/1')
@@ -26,4 +32,64 @@ def view_model(context, request):
     set_ui_theme_name('hot-sneaks')
     return {'item':context, 'project':'leafymiracle',
             'jitwidget': LeafyGraph(rootObject=context),
-            'dialogwidget': LeafyDialog}
+            'dialogwidget': LeafyDialog,
+            'searchbarwidget': LeafySearchbar,
+           }
+
+
+def search(context, request):
+    """ NOTE :: this is *not* the `pyramid` way of doing things.
+
+    DB stuff should not happen in the 'view' but should instead happen..
+    elsewhere?   Quick hack to make this work before submission.
+
+    --Ralph
+    """
+
+    term = request.params['term']
+    cats = request.params.get('cats', 'Root,Category,Group,Package')
+
+    # Don't do any search if the term is too short
+    if len(term) < 2:
+        return {'data':[]}
+
+    attrs = {
+        'Root' : {
+            'search_on' : ['name'],
+        },
+        'Category' : {
+            'search_on' : ['name', 'description'],
+        },
+        'Group' : {
+            'search_on' : ['name', 'description'],
+        },
+        'Package' : {
+            'search_on' : ['name'],
+        }
+    }
+    srch = '%%%s%%' % term
+    cats = cats.split(',')
+    results = []
+
+    for cat in cats:
+        if not cat in attrs.keys():
+            raise ValueError, "'%s' is a disallowed category." % cat
+        cls = getattr(leafymiracle.models, cat)
+        entries = cls.query.filter(sqlalchemy.or_(
+            *[getattr(cls, srch_attr).like(srch)
+              for srch_attr in attrs[cat]['search_on']]
+        ))
+        results += [[unicode(e), e.id, cat] for e in entries]
+
+    data = {
+        'data' : [
+            {
+                'label' : label,
+                'value' : value,
+                'category' : category }
+            for label, value, category in results
+        ]
+    }
+    resp = webob.Response(request=request, content_type="application/json")
+    resp.body = simplejson.dumps(data)
+    return resp

@@ -15,6 +15,7 @@
 
 from tw2.jit import SQLARadialGraph
 from tw2.jqplugins.ui import DialogWidget
+from tw2.jqplugins.ui import CategoryAutocompleteWidget
 
 from tw2.core.resources import JSSymbol
 
@@ -53,22 +54,22 @@ class LeafyGraph(SQLARadialGraph):
 
     # Override the label style
     onPlaceLabel = JSSymbol(src="""
-        (function(domElement, node){
-            domElement.style.display = "none";
-            domElement.innerHTML = node.name;
-            domElement.style.display = "";
-            var left = parseInt(domElement.style.left);
-            domElement.style.width = '120px';
-            domElement.style.height = '';
-            var w = domElement.offsetWidth;
-            domElement.style.left = (left - w /2) + 'px';
+                            (function(domElement, node){
+                            domElement.style.display = "none";
+                            domElement.innerHTML = node.name;
+                            domElement.style.display = "";
+                            var left = parseInt(domElement.style.left);
+                            domElement.style.width = '120px';
+                            domElement.style.height = '';
+                            var w = domElement.offsetWidth;
+                            domElement.style.left = (left - w /2) + 'px';
 
-            domElement.style.cursor = 'pointer';
-            if ( node._depth <= 1 )
-                domElement.style.color = '%s';
-            else
-                domElement.style.color = '%s';
-        })""" % (triads[0], triads_dark[0]))
+                            domElement.style.cursor = 'pointer';
+                            if ( node._depth <= 1 )
+                            domElement.style.color = '%s';
+                            else
+                            domElement.style.color = '%s';
+                           })""" % (triads[0], triads_dark[0]))
 
 def leafy_readme():
     """ Ridiculous """
@@ -86,3 +87,30 @@ class LeafyDialog(DialogWidget):
         'width' : 1000
     }
     value = leafy_readme()
+
+class LeafySearchbar(CategoryAutocompleteWidget):
+    id = 'leafy_searchbar'
+    value = "Leafy Searchbar"
+    tags = []
+    options={
+        'source' : JSSymbol(
+            src="""
+            function( request, response ) {
+                $.ajax({
+                    url: "/search",
+                    dataType: "json",
+                    data: { term : request.term, },
+                    success: function( data ) {
+                        response( data.data );
+                    }
+                });
+            }"""),
+        'select' : JSSymbol(
+            src="""
+            function( event, ui ) {
+                window.location.assign("/1#___" + ui.item.category + \
+                                          "___" + ui.item.value);
+                window.location.reload(true);
+            }"""
+        )
+    }

@@ -33,6 +33,10 @@ def main(global_config, **settings):
                     renderer="templates/model.pt")
     config.add_static_view(name='static', path='static')
 
+    # Create the searchbar handler
+    config.add_route('search', '/search',
+                     view='leafymiracle.views.search', xhr=True)
+
     # Create the data view for our tw2.jit.SQLARadialGraph
     jit_view = lambda context, request: LeafyGraph.request(request)
     config.add_route('data', '/data', view=jit_view, xhr=True)
