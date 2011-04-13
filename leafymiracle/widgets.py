@@ -73,10 +73,9 @@ def leafy_readme():
     """ Ridiculous """
     root = '/'.join(__file__.split('/')[:-2])
     fname = root + '/README.rst'
-    f = open(fname, 'r')
-    readme = f.read()
-    f.close()
-    return docutils.examples.html_body(unicode(readme))
+    with open(fname, 'r') as f:
+        readme = f.read()
+        return docutils.examples.html_body(unicode(readme))
 
 class LeafyDialog(DialogWidget):
     id = 'leafy_dialog'
