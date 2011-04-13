@@ -43,8 +43,8 @@ Running
 
 ::
 
-$ mkvirtualenv --no-site-packages leafymiracle
-$ workon leafymiracle
+$ sudo yum -y install python-virtualenv
+$ virtualenv env && source env/bin/activate
 $ python setup.py develop
 $ python leafymiracle/populate.py
 $ paster serve development.ini
