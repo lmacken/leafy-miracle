@@ -69,30 +69,34 @@ def populate(comps='comps-f16', do_dependencies=True):
     session.commit()
 
 def add_dependencies(package, session):
-    try:
-        pkg = yumobj.pkgSack.searchNevra(name=package.name)[0]
-        deps_d = yumobj.findDeps([pkg])
-        deps = [tup[0] for tup in deps_d[deps_d.keys()[0]].keys()]
+    deps = set()
+    pkg = yumobj.pkgSack.searchNevra(name=package.name)
+    if not pkg:
+        print "Cannot find package: %s" % package
+        return
 
-        for dep in deps:
-            base_query = session.query(Package).filter_by(name=dep)
-            if base_query.count() == 0:
-                _new_package = Package(name=dep)
-                session.add(_new_package)
-                session.flush()
-                add_dependencies(_new_package, session)
+    deps_d = yumobj.findDeps([pkg[0]])
+    for dep in deps_d.itervalues():
+        for req in dep.itervalues():
+            deps.add(req[0].name)
 
-            dep_as_package = base_query.one()
+    for dep in deps:
+        base_query = session.query(Package).filter_by(name=dep)
+        if base_query.count() == 0:
+            _new_package = Package(name=dep)
+            session.add(_new_package)
+            session.flush()
+            add_dependencies(_new_package, session)
 
-            if dep_as_package not in package.dependencies:
-                package.dependencies.append(dep_as_package)
+        dep_as_package = base_query.one()
 
-        print "package: %s has (%i/%i) deps" % (
-            package.name, len(package.dependencies), len(deps))
-        session.flush()
-    except Exception as e:
-        # TODO -- figure out why some stuff breaks here.
-        pass
+        if dep_as_package not in package.dependencies:
+            package.dependencies.append(dep_as_package)
+
+    print "package: %s has (%i/%i) deps" % (
+        package.name, len(package.dependencies), len(deps))
+
+    session.flush()
 
 def build_comps():
     import subprocess
