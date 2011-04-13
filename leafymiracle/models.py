@@ -15,7 +15,7 @@
 
 from sqlalchemy import Integer, Column, Unicode, UnicodeText, ForeignKey, Table
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, scoped_session, sessionmaker
+from sqlalchemy.orm import relationship, scoped_session, sessionmaker, backref
 
 from kitchen.text.converters import to_unicode
 
@@ -131,6 +131,7 @@ Package.__mapper__.add_property('dependencies', relationship(
     primaryjoin=Package.id==dependencies_mapping.c.dependee_id,
     secondaryjoin=dependencies_mapping.c.depender_id==Package.id,
     secondary=dependencies_mapping,
+    backref=backref('dependants'),
     doc="List of this packages' dependencies!",
 ))
 
