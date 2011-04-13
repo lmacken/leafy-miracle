@@ -31,9 +31,9 @@ The auspicious and venerable Leafy Miracle
 Features
 ~~~~~~~~
 
-* Written in Python using the Pyramid web framework
-* SQLAlchemy database model of Categories
-* Interactive graph widget, using ToscaWidgets2 and the JIT
+* Written in `Python <http://python.org>`_ using the `Pyramid <http://pylonsproject.org>`_ web framework
+* `SQLAlchemy <http://sqlalchemy.org>`_ database model of `Yum <http://yum.baseurl.org>`_ Categories, Groups, Packages, and Dependencies
+* Interactive graph widget, using `ToscaWidgets2 <http://toscawidgets.org/documentation/tw2.core>`_ and the `JavaScript InfoVis Toolkit <http://thejit.org>`_
 * Package mouse-over menus linking to downloads, acls, code
   bugs, builds and updates.
 * Deep linking
