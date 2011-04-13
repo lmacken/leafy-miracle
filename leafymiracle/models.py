@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from sqlalchemy import Integer, Column, Unicode, UnicodeText, ForeignKey
+from sqlalchemy import Integer, Column, Unicode, UnicodeText, ForeignKey, Table
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, scoped_session, sessionmaker
 
@@ -114,6 +114,22 @@ class Package(Base):
             </ul>
             """.format(**self.__dict__)
         }
+
+dependencies_mapping = Table(
+    'packages_dependencies_mapping', Base.metadata,
+    Column('depender_id', Integer,
+           ForeignKey('packages.id'), primary_key=True),
+    Column('dependee_id', Integer,
+           ForeignKey('packages.id'), primary_key=True))
+
+Package.__mapper__.add_property('dependencies', relationship(
+    Package,
+    primaryjoin=Package.id==dependencies_mapping.c.dependee_id,
+    secondaryjoin=dependencies_mapping.c.depender_id==Package.id,
+    secondary=dependencies_mapping,
+    doc="List of this packages' dependencies!",
+))
+
 
 
 def initialize_sql(engine):
