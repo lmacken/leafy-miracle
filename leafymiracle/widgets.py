@@ -39,6 +39,7 @@ class LeafyGraph(SQLARadialGraph):
     alphabetize_relations = 24
     alphabetize_minimal = True
     show_attributes = False
+    show_empty_relations = False
     imply_relations = True
     auto_labels = False
     deep_linking = True
