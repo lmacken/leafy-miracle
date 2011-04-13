@@ -112,7 +112,11 @@ class Package(Base):
             <li><img src="https://admin.fedoraproject.org/community/images/16_sources.png"/><a href="http://pkgs.fedoraproject.org/gitweb/?p={name}.git" target="_blank">Source</a></li>
             <li><img src="https://admin.fedoraproject.org/community/images/16_pkgdb.png"/><a href="https://admin.fedoraproject.org/pkgdb/acls/name/{name}" target="_blank">Package Info</a></li>
             </ul>
-            """.format(**self.__dict__)
+            """.format(**self.__dict__),
+
+            "traversal_costs" : {
+                "group" : 2
+            },
         }
 
 dependencies_mapping = Table(
