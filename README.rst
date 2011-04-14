@@ -37,6 +37,7 @@ Features
 * Package mouse-over menus linking to downloads, acls, code
   bugs, builds and updates.
 * Deep linking
+* Search bar with auto-completion
 
 Running
 ~~~~~~~
