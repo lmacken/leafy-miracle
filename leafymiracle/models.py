@@ -25,7 +25,7 @@ Base.query = DBSession.query_property()
 
 # Icon Hack. Throw these in a config file.
 icons = ['admin-tools', 'apps', 'authoring-and-publishing', 'base-system', 'base-x', 'clustering', 'content', 'core', 'desktops', 'development', 'development-tools', 'dial-up', 'directory-server', 'eclipse', 'editors', 'education', 'electronic-lab', 'engineering-and-scientific', 'font-design', 'fonts', 'games', 'gnome-desktop', 'gnome-software-development', 'graphical-internet', 'graphics', 'hardware-support', 'haskell', 'input-methods', 'java-development', 'java', 'kde-desktop', 'kde-software-development', 'language-support', 'legacy-fonts', 'legacy-network-server', 'lxde-desktop', 'mail-server', 'mysql', 'office', 'printing', 'ruby', 'server-cfg', 'servers', 'sound-and-video', 'sql-server', 'sugar-desktop', 'system-tools', 'text-internet', 'uncategorized', 'virtualization', 'window-managers', 'xfce-desktop', 'xfce-software-development', 'x-software-development']
-icon_link = '<img src="http://lmacken.fedorapeople.org/comps-extras/%s.png"/ style="vertical-align:middle;"> %s'
+icon_link = '<img src="http://lmacken.fedorapeople.org/comps-extras/%s.png" style="vertical-align:middle;" /> %s'
 
 
 class Root(Base):
