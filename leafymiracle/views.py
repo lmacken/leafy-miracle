@@ -47,16 +47,13 @@ def search(context, request):
     """
 
     term = request.params['term']
-    cats = request.params.get('cats', 'Root,Category,Group,Package')
+    cats = request.params.get('cats', 'Category,Group,Package')
 
     # Don't do any search if the term is too short
     if len(term) < 2:
         return {'data':[]}
 
     attrs = {
-        'Root' : {
-            'search_on' : ['name'],
-        },
         'Category' : {
             'search_on' : ['name', 'description'],
         },
