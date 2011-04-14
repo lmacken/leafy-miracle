@@ -39,6 +39,11 @@ Features
 * Deep linking
 * Search bar with auto-completion
 
+Source
+~~~~~~
+
+* `Git repository <http://fedorapeople.org/gitweb?p=lmacken/public_git/leafymiracle>`_ on fedorapeople.
+
 Running
 ~~~~~~~
 
