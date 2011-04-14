@@ -24,3 +24,14 @@ img.center {
         float: right;
         float: top;
 }
+
+.ui-autocomplete {
+        font-size: 75%;
+        width: 180px;
+
+        /* vertical scrollbar on */
+        max-height: 600px;
+        overflow-y: auto;
+        /* prevent horizontal scrollbar */
+        overflow-x: hidden;
+}
