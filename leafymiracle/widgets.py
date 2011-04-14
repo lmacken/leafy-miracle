@@ -18,6 +18,7 @@ from tw2.jqplugins.ui import DialogWidget
 from tw2.jqplugins.ui import CategoryAutocompleteWidget
 
 from tw2.core.resources import JSSymbol
+from tw2.core.resources import JSLink
 
 import docutils.examples
 
@@ -88,7 +89,16 @@ class LeafyDialog(DialogWidget):
     }
     value = leafy_readme()
 
+searchbar_html_support_js = JSLink(
+    link='/static/js/searchbar_html_support.js')
+
 class LeafySearchbar(CategoryAutocompleteWidget):
+    def prepare(self):
+        # Add this javascript hack into the client that makes jquery-ui
+        # render html embedding in JSON.  :D:D:D:D:D
+        self.resources.append(searchbar_html_support_js)
+        super(LeafySearchbar, self).prepare()
+
     id = 'leafy_searchbar'
     value = "Leafy Searchbar"
     tags = []
