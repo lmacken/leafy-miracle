@@ -51,7 +51,9 @@ def search(context, request):
 
     # Don't do any search if the term is too short
     if len(term) < 2:
-        return {'data':[]}
+        resp = webob.Response(request=request, content_type="application/json")
+        resp.body = simplejson.dumps({'data':[]})
+        return resp
 
     attrs = {
         'Category' : {
