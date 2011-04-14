@@ -16,12 +16,63 @@
 from sqlalchemy.orm.exc import NoResultFound
 from models import DBSession, Root, initialize_sql
 
+import models
+import sqlalchemy
+
+class SearchHandler(object):
+    def search(self, term, cats):
+        # Don't do any search if the term is too short
+        if len(term) < 2:
+            return {'data':[]}
+
+        attrs = {
+            'Category' : {
+                'search_on' : ['name', 'description'],
+            },
+            'Group' : {
+                'search_on' : ['name', 'description'],
+            },
+            'Package' : {
+                'search_on' : ['name'],
+            }
+        }
+        srch = '%%%s%%' % term
+        cats = cats.split(',')
+        results = []
+
+        for cat in cats:
+            if not cat in attrs.keys():
+                raise ValueError, "'%s' is a disallowed category." % cat
+            cls = getattr(models, cat)
+            entries = cls.query.filter(sqlalchemy.or_(
+                *[getattr(cls, srch_attr).like(srch)
+                  for srch_attr in attrs[cat]['search_on']]
+            ))
+            results += [[unicode(e), e.id, cat] for e in entries]
+
+        data = {
+            'data' : [
+                {
+                    'label' : label,
+                    'value' : value,
+                    'category' : category }
+                for label, value, category in results
+            ]
+        }
+        return data
+
 class MyApp(object):
     __name__ = None
     __parent__ = None
 
     def __getitem__(self, key):
         session = DBSession()
+        if key == 'search':
+            handler = SearchHandler()
+            handler.__name__ = key
+            handler.__parent__ = self
+            return handler
+
         try:
             id = int(key)
         except (ValueError, TypeError):
