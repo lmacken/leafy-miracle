@@ -19,8 +19,6 @@ from widgets import LeafyGraph
 from widgets import LeafyDialog
 from widgets import LeafySearchbar
 
-import leafymiracle.models
-import sqlalchemy
 import simplejson
 import webob
 
@@ -37,58 +35,12 @@ def view_model(context, request):
            }
 
 
-def search(context, request):
-    """ NOTE :: this is *not* the `pyramid` way of doing things.
-
-    DB stuff should not happen in the 'view' but should instead happen..
-    elsewhere?   Quick hack to make this work before submission.
-
-    --Ralph
-    """
-
+def view_search(context, request):
     term = request.params['term']
     cats = request.params.get('cats', 'Category,Group,Package')
 
-    # Don't do any search if the term is too short
-    if len(term) < 2:
-        resp = webob.Response(request=request, content_type="application/json")
-        resp.body = simplejson.dumps({'data':[]})
-        return resp
+    data = context.search(term, cats)
 
-    attrs = {
-        'Category' : {
-            'search_on' : ['name', 'description'],
-        },
-        'Group' : {
-            'search_on' : ['name', 'description'],
-        },
-        'Package' : {
-            'search_on' : ['name'],
-        }
-    }
-    srch = '%%%s%%' % term
-    cats = cats.split(',')
-    results = []
-
-    for cat in cats:
-        if not cat in attrs.keys():
-            raise ValueError, "'%s' is a disallowed category." % cat
-        cls = getattr(leafymiracle.models, cat)
-        entries = cls.query.filter(sqlalchemy.or_(
-            *[getattr(cls, srch_attr).like(srch)
-              for srch_attr in attrs[cat]['search_on']]
-        ))
-        results += [[unicode(e), e.id, cat] for e in entries]
-
-    data = {
-        'data' : [
-            {
-                'label' : label,
-                'value' : value,
-                'category' : category }
-            for label, value, category in results
-        ]
-    }
     resp = webob.Response(request=request, content_type="application/json")
     resp.body = simplejson.dumps(data)
     return resp
