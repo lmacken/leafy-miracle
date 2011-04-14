@@ -6,13 +6,13 @@
 </head>
 <body>
   <div tal:content="structure dialogwidget.display()"></div>
+    <div class="searchbar-wrapper">
+      <div tal:content="structure searchbarwidget.display()"></div>
+    </div>
     <div class="outer">
       <a href="javascript:(function(){$('#leafy_dialog').dialog('open');})();">
         <img class="center" src="static/images/leafy_logo.png" />
       </a>
-    </div>
-    <div class="searchbar">
-      <div tal:content="structure searchbarwidget.display()"></div>
     </div>
     <div class="inner" tal:content="structure jitwidget.display()"></div>
 </body>

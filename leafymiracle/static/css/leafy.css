@@ -18,3 +18,9 @@ img.center {
         margin-right: auto;
         border: 0;
 }
+
+.searchbar-wrapper {
+        position: absolute;
+        float: right;
+        float: top;
+}
