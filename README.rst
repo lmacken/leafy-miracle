@@ -1,6 +1,3 @@
-The auspicious and venerable Leafy Miracle
-==========================================
-
 `leafy-miracle.rhcloud.com <http://leafy-miracle.rhcloud.com>`_
 
 
