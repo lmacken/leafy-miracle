@@ -30,6 +30,9 @@ The auspicious and venerable Leafy Miracle
 |                      '-'                      |
 |_______________________________________________|
 
+.. image:: http://lewk.org/img/leafy.png
+
+
 Features
 ~~~~~~~~
 
