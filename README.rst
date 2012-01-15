@@ -18,7 +18,7 @@ Features
 Source
 ~~~~~~
 
-* `Git repository <http://fedorapeople.org/gitweb?p=lmacken/public_git/leafymiracle>`_ on fedorapeople.
+* `Git repository <http://github.com/lmacken/leafy-miracle>`_ on github.
 
 Running
 ~~~~~~~
@@ -26,7 +26,7 @@ Running
 ::
 
    sudo yum -y install python-virtualenv
-   git clone git://fedorapeople.org/~lmacken/leafymiracle && cd leafymiracle
+   git clone git://github.com/lmacken/leafy-miracle.git && cd leafy-miracle
    virtualenv env && source env/bin/activate
    python setup.py develop
    python leafymiracle/populate.py
